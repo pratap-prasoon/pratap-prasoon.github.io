@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <meta charset="utf-8">
+    <title>ToDo List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+    body {
+
+      height: 100%;
+      background-image: linear-gradient(#faf,#ffff);
+      background-repeat: no-repeat;
+      font-family: cursive;
+      color: #0f6161;
+      background-image: auto;
+    }
+
+.main{
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+}
+
+h1{
+  text-align: center;
+  color: #fff;
+}
+
+form{
+  background-color: #fff;
+  padding: 15px;
+}
+
+input[type="text"]{
+  width: 310px;
+  height: 25px;
+  outline: 0px;
+  border: none;
+  font-size: 1.3em;
+  background: #fff;
+  color: #2f4f4f;
+}
+
+button{
+  font-size: 1.5em;
+  color: #53bdff;
+  background-color: #fff;
+  outline: 0px;
+  border: none;
+  width: 50px;
+}
+
+.taskBoard{
+  background-color: #fff;
+  margin-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 40px;
+ 
+}
+
+ul{
+  list-style: none;
+}
+
+li{
+  border-bottom: 1px solid #53bdff;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: 1.3em;
+  color: #2f4f4f;
+}
+
+a{
+  float: right;
+  text-align: right;
+  color: #ff6161;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.delete{
+  background-color: #ff6161;
+  color: #fff;
+  cursor: pointer;
+  padding: 0px 3px 0px 3px;
+}
+
+@media(max-width: 900px){
+  .main{
+    margin: auto;
+    width: 100%;
+  }
+  
+  input[type="text"]{
+    width: 80%;
+  }
+
+  button{
+    width: 10%;
+  }
+} 
+  </style>
+</head>
+<body>
+ <div class="main">
+      <h1>TO-DO LIST</h1>
+      <form class="" action="index.html" method="post">
+        <input type="text" placeholder="Add a new task..." name="task">
+        <button  type="submit"><strong>+</strong></button>
+      </form>
+      
+      <div class="taskBoard">
+        <ul>
+        	<li><input type="checkbox"><label>Wake up at 6</label> &nbsp <span class="delete">x</span></li>
+        	<li><input type="checkbox"><label>Hit the gym</label> &nbsp <span class="delete">x</span></li>
+        	<li><input type="checkbox"><label>Buy eggs</label> &nbsp <span class="delete">x</span></li>
+        </ul>
+        <a id="clear">Clear</a>
+        <p>Task Left: <span id="count">0</span></p>
+      </div>
+    </div>
+    <script type="text/javascript">
+    loadEvents();
+
+    function loadEvents(){
+
+      document.querySelector('form').addEventListener('submit',submit);
+      document.getElementById('clear').addEventListener('click',clrList);
+      document.querySelector('ul').addEventListener('click',delOrTick);
+    }
+
+function submit(e){
+  e.preventDefault();
+  let taskList;
+  let input = document.querySelector('input');
+  if(input.value != '')
+    addTask(input.value);
+  input.value = '';
+}
+
+function addTask(task){
+  let ul = document.querySelector('ul');
+  let li = document.createElement('li');
+  li.innerHTML = `<input type="checkbox"><label>${task}</label> &nbsp <span class="delete">x</span>`;
+  ul.appendChild(li);
+  document.querySelector('.taskBoard').style.display = 'block';
+}
+
+
+function clrList(e){
+  let ul = document.querySelector('ul').innerHTML = '';
+}
+
+
+function delOrTick(e){
+  if(e.target.className == 'delete')
+    delTask(e);
+  else {
+    tickTask(e);
+  }
+}
+
+
+function delTask(e){
+  let remove = e.target.parentNode;
+  let parentNode = remove.parentNode;
+  parentNode.removeChild(remove);
+}
+
+
+function tickTask(e){
+  const task = e.target.nextSibling;
+  if(e.target.checked){
+    task.style.textDecoration = "line-through";
+    task.style.color = "#ff0000";
+  }else {
+    task.style.textDecoration = "none";
+    task.style.color = "#2f4f4f";
+  }
+}
+    </script>
+</body>
+</html>
